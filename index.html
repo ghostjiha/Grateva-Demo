@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GRATEVA // Urban Streetwear & Drop-Shoulder Culture</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts: Syne & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#0a0a0b',
+              card: '#121214',
+              surface: '#1a1a1e',
+              border: '#27272a',
+              red: '#ff2e4c',
+              neon: '#ccff00',
+              gray: '#8e8e93'
+            }
+          },
+          fontFamily: {
+            syne: ['Syne', 'sans-serif'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    /* Custom Scrollbar & Animations */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0a0b;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #27272a;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ff2e4c;
+    }
+    
+    .text-glow {
+      text-shadow: 0 0 12px rgba(255, 46, 76, 0.4);
+    }
+    .neon-glow {
+      box-shadow: 0 0 20px rgba(204, 255, 0, 0.2);
+    }
+    .badge-glitch {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    /* Marquee ticker animation */
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: flex;
+      width: 200%;
+      animation: marquee 22s linear infinite;
+    }
+    .animate-marquee:hover {
+      animation-play-state: paused;
+    }
+
+    /* Modal animation */
+    .modal-backdrop {
+      background-color: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+    }
+  </style>
+</head>
+<body class="bg-brand-black text-slate-100 font-sans selection:bg-brand-red selection:text-white min-h-screen flex flex-col antialiased overflow-x-hidden">
+
+  <!-- 1. ANNOUNCEMENT MARQUEE TICKER -->
+  <div class="bg-brand-red text-black font-extrabold text-xs tracking-widest uppercase py-2 overflow-hidden border-b border-red-600/30">
+    <div class="animate-marquee whitespace-nowrap flex items-center gap-12">
+      <span class="flex items-center gap-2"><i class="fa-solid fa-bolt"></i> NEW DROP 04: TOKYO NIGHTS JDM COLLECTION NOW LIVE</span>
+      <span>•</span>
+      <span class="flex items-center gap-2"><i class="fa-solid fa-truck-fast"></i> FREE CASH ON DELIVERY ACROSS BANGLADESH ON ORDERS ABOVE ৳2000</span>
+      <span>•</span>
+      <span class="flex items-center gap-2"><i class="fa-solid fa-fire"></i> OVERSIZED HEAVYWEIGHT 240+ GSM COTTON FIT</span>
+      <span>•</span>
+      <span class="flex items-center gap-2"><i class="fa-solid fa-bolt"></i> NEW DROP 04: TOKYO NIGHTS JDM COLLECTION NOW LIVE</span>
+      <span>•</span>
+      <span class="flex items-center gap-2"><i class="fa-solid fa-truck-fast"></i> FREE CASH ON DELIVERY ACROSS BANGLADESH ON ORDERS ABOVE ৳2000</span>
+      <span>•</span>
+      <span class="flex items-center gap-2"><i class="fa-solid fa-fire"></i> OVERSIZED HEAVYWEIGHT 240+ GSM COTTON FIT</span>
+    </div>
+  </div>
+
+  <!-- 2. HEADER NAVIGATION -->
+  <header class="sticky top-0 z-40 bg-brand-black/90 backdrop-blur-md border-b border-brand-border transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-2 group">
+        <span class="font-syne text-3xl font-black tracking-tighter uppercase text-white group-hover:text-brand-red transition-colors">
+          GRATEVA<span class="text-brand-red text-4xl leading-none">.</span>
+        </span>
+        <span class="hidden sm:inline-block text-[10px] uppercase font-bold tracking-widest text-brand-neon bg-brand-surface border border-brand-border px-2 py-0.5 rounded">
+          BD URBAN
+        </span>
+      </a>
+
+      <!-- Category Navigation (Desktop) -->
+      <nav class="hidden md:flex items-center space-x-1 lg:space-x-6 text-xs font-bold uppercase tracking-wider">
+        <button onclick="filterCategory('all')" class="nav-cat-btn px-3 py-2 text-brand-red border-b-2 border-brand-red transition-all" data-cat="all">All Drops</button>
+        <button onclick="filterCategory('oversized')" class="nav-cat-btn px-3 py-2 text-zinc-400 hover:text-white border-b-2 border-transparent transition-all" data-cat="oversized">Oversized Tees</button>
+        <button onclick="filterCategory('jdm')" class="nav-cat-btn px-3 py-2 text-zinc-400 hover:text-white border-b-2 border-transparent transition-all" data-cat="jdm">Anime & JDM</button>
+        <button onclick="filterCategory('hoodies')" class="nav-cat-btn px-3 py-2 text-zinc-400 hover:text-white border-b-2 border-transparent transition-all" data-cat="hoodies">Hoodies</button>
+        <button onclick="scrollToDesigner()" class="px-3 py-2 text-brand-neon hover:opacity-80 transition-all flex items-center gap-1.5 bg-brand-surface rounded border border-brand-neon/30">
+          <i class="fa-solid fa-wand-magic-sparkles text-xs"></i> Custom Studio
+        </button>
+      </nav>
+
+      <!-- Search & Utility Controls -->
+      <div class="flex items-center gap-2 sm:gap-4">
+        
+        <!-- Search Input -->
+        <div class="relative hidden sm:block w-48 lg:w-60">
+          <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Search drops, JDM, oversized..." 
+                 class="w-full bg-brand-surface text-xs text-white placeholder-zinc-500 pl-9 pr-3 py-2 rounded-lg border border-brand-border focus:outline-none focus:border-brand-red transition-colors">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-zinc-500"></i>
+        </div>
+
+        <!-- Wishlist Icon -->
+        <button onclick="toggleWishlistModal()" class="relative p-2.5 rounded-lg bg-brand-surface border border-brand-border text-zinc-300 hover:text-brand-red transition-colors">
+          <i class="fa-regular fa-heart text-base"></i>
+          <span id="wishlistBadge" class="absolute -top-1 -right-1 bg-brand-red text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
+        </button>
+
+        <!-- Cart Trigger Button -->
+        <button onclick="toggleCartDrawer()" class="relative p-2.5 rounded-lg bg-brand-red text-white hover:bg-red-600 transition-colors flex items-center gap-2">
+          <i class="fa-solid fa-bag-shopping text-base"></i>
+          <span class="hidden sm:inline text-xs font-extrabold uppercase tracking-wider">Cart</span>
+          <span id="cartBadge" class="bg-black text-brand-neon text-[11px] font-black px-2 py-0.5 rounded-full border border-brand-neon/40">0</span>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button onclick="toggleMobileNav()" class="md:hidden p-2.5 rounded-lg bg-brand-surface border border-brand-border text-zinc-300 hover:text-white">
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileNav" class="hidden md:hidden bg-brand-card border-b border-brand-border px-4 py-4 space-y-3">
+      <div class="relative mb-3">
+        <input type="text" id="mobileSearchInput" oninput="handleMobileSearch()" placeholder="Search drops, JDM, oversized..." 
+               class="w-full bg-brand-surface text-xs text-white placeholder-zinc-500 pl-9 pr-3 py-2.5 rounded-lg border border-brand-border">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-xs text-zinc-500"></i>
+      </div>
+      <div class="grid grid-cols-2 gap-2 text-xs font-bold uppercase">
+        <button onclick="filterCategory('all'); toggleMobileNav();" class="p-2.5 text-left bg-brand-surface rounded border border-brand-border text-brand-red">All Drops</button>
+        <button onclick="filterCategory('oversized'); toggleMobileNav();" class="p-2.5 text-left bg-brand-surface rounded border border-brand-border text-zinc-300">Oversized Tees</button>
+        <button onclick="filterCategory('jdm'); toggleMobileNav();" class="p-2.5 text-left bg-brand-surface rounded border border-brand-border text-zinc-300">Anime & JDM</button>
+        <button onclick="filterCategory('hoodies'); toggleMobileNav();" class="p-2.5 text-left bg-brand-surface rounded border border-brand-border text-zinc-300">Hoodies</button>
+      </div>
+      <button onclick="scrollToDesigner(); toggleMobileNav();" class="w-full p-2.5 bg-brand-neon/10 border border-brand-neon text-brand-neon font-bold text-xs uppercase rounded flex items-center justify-center gap-2">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Open Custom Drop Studio
+      </button>
+    </div>
+  </header>
+
+  <!-- 3. HERO SECTION WITH COUNTDOWN -->
+  <section class="relative bg-brand-black border-b border-brand-border overflow-hidden">
+    <!-- Dark Graphic Overlay Background -->
+    <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#ff2e4c_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+    <div class="absolute -right-20 -top-20 w-96 h-96 bg-brand-red/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Hero Left Text Content -->
+      <div class="lg:col-span-7 space-y-6 text-left">
+        
+        <div class="inline-flex items-center gap-2 bg-brand-surface border border-brand-border px-3.5 py-1.5 rounded-full">
+          <span class="w-2 h-2 rounded-full bg-brand-red animate-ping"></span>
+          <span class="text-xs font-bold uppercase tracking-widest text-zinc-300">DROP 04 IS LIVE • DHAKA & NATIONWIDE</span>
+        </div>
+
+        <h1 class="font-syne text-4xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tight leading-none text-white">
+          TOKYO <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-red via-orange-500 to-yellow-400 text-glow">NIGHTS</span>
+          <br><span class="text-zinc-500 text-3xl sm:text-5xl font-extrabold">OVERSIZED COLLECTION</span>
+        </h1>
+
+        <p class="text-zinc-400 text-sm sm:text-base max-w-xl font-normal leading-relaxed">
+          Heavyweight 240+ GSM combed cotton. Drop-shoulder boxy silhouette. Inspired by JDM drift culture, cyberpunk Tokyo street aesthetics, and Bangladeshi street fashion.
+        </p>
+
+        <!-- Drop Timer Card -->
+        <div class="p-4 sm:p-5 rounded-xl bg-brand-card/90 border border-brand-border max-w-md">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-brand-gray flex items-center gap-2">
+              <i class="fa-solid fa-clock text-brand-red"></i> Next Limited Drop Closes In:
+            </span>
+            <span class="text-[10px] font-extrabold text-brand-neon uppercase px-2 py-0.5 bg-brand-surface rounded">RESTOCK LIMITED</span>
+          </div>
+          
+          <div class="grid grid-cols-4 gap-2 text-center">
+            <div class="bg-brand-surface p-2 rounded border border-brand-border">
+              <span id="timerDays" class="font-syne text-xl sm:text-2xl font-bold text-white block">02</span>
+              <span class="text-[10px] text-zinc-500 uppercase font-semibold">Days</span>
+            </div>
+            <div class="bg-brand-surface p-2 rounded border border-brand-border">
+              <span id="timerHours" class="font-syne text-xl sm:text-2xl font-bold text-white block">14</span>
+              <span class="text-[10px] text-zinc-500 uppercase font-semibold">Hours</span>
+            </div>
+            <div class="bg-brand-surface p-2 rounded border border-brand-border">
+              <span id="timerMins" class="font-syne text-xl sm:text-2xl font-bold text-white block">38</span>
+              <span class="text-[10px] text-zinc-500 uppercase font-semibold">Mins</span>
+            </div>
+            <div class="bg-brand-surface p-2 rounded border border-brand-border">
+              <span id="timerSecs" class="font-syne text-xl sm:text-2xl font-bold text-brand-red block">59</span>
+              <span class="text-[10px] text-zinc-500 uppercase font-semibold">Secs</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Actions -->
+        <div class="flex flex-wrap items-center gap-4 pt-2">
+          <a href="#catalog" class="px-8 py-4 bg-brand-red text-white font-extrabold text-xs uppercase tracking-widest rounded-lg hover:bg-red-600 transition-all transform hover:-translate-y-0.5 shadow-lg shadow-brand-red/20 flex items-center gap-2">
+            <span>SHOP THE DROP</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <button onclick="openLookbookModal()" class="px-6 py-4 bg-brand-surface text-white font-extrabold text-xs uppercase tracking-widest rounded-lg border border-brand-border hover:border-zinc-500 transition-all flex items-center gap-2">
+            <i class="fa-regular fa-images text-brand-red"></i>
+            <span>VIEW LOOKBOOK</span>
+          </button>
+        </div>
+
+        <!-- Key Trust Badges -->
+        <div class="pt-4 flex flex-wrap items-center gap-6 text-xs text-zinc-400 font-medium">
+          <span class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-brand-neon"></i> Premium 240 GSM Cotton</span>
+          <span class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-brand-neon"></i> bKash / Nagad / COD</span>
+          <span class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-brand-neon"></i> 3-Day BD Easy Exchange</span>
+        </div>
+
+      </div>
+
+      <!-- Hero Right Image Showcase Mockup -->
+      <div class="lg:col-span-5 relative flex justify-center">
+        <div class="relative w-full max-w-md aspect-[4/5] rounded-2xl bg-gradient-to-b from-brand-card to-brand-surface p-3 border border-brand-border shadow-2xl group overflow-hidden">
+          
+          <!-- Badge overlay -->
+          <div class="absolute top-6 left-6 z-20 flex flex-col gap-2">
+            <span class="bg-brand-red text-white font-black text-[10px] uppercase tracking-wider px-3 py-1 rounded">
+              TOP SELLER ৳1,150
+            </span>
+            <span class="bg-black/80 backdrop-blur-md text-brand-neon font-bold text-[10px] uppercase tracking-wider px-3 py-1 rounded border border-brand-neon/30">
+              JDM DRIFT EDITION
+            </span>
+          </div>
+
+          <!-- Mockup SVG Visual -->
+          <div class="w-full h-full bg-zinc-950 rounded-xl relative flex items-center justify-center p-6 overflow-hidden">
+            <!-- Simulated Oversized T-Shirt Canvas -->
+            <svg class="w-full h-full max-h-[380px] drop-shadow-2xl" viewBox="0 0 400 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Base Heavyweight Oversized Tee Silhouette -->
+              <path d="M 100 80 L 140 40 L 260 40 L 300 80 L 380 150 L 330 220 L 290 190 L 290 440 L 110 440 L 110 190 L 70 220 L 20 150 Z" fill="#141416" stroke="#2a2a30" stroke-width="3"/>
+              <!-- Collar Ribbon -->
+              <path d="M 140 40 C 170 75, 230 75, 260 40" fill="none" stroke="#2a2a30" stroke-width="4"/>
+              
+              <!-- JDM Back/Front Art Graphic Overlay -->
+              <rect x="140" y="140" width="120" height="180" rx="8" fill="#1c1c22" stroke="#ff2e4c" stroke-width="1.5" stroke-dasharray="4 2"/>
+              <!-- JDM Sun Circle -->
+              <circle cx="200" cy="200" r="40" fill="#ff2e4c" opacity="0.85" />
+              <!-- Japanese Kanji Text Symbol Simulation -->
+              <text x="200" y="210" font-family="Syne, sans-serif" font-weight="900" font-size="28" fill="#ffffff" text-anchor="middle">速度</text>
+              <text x="200" y="260" font-family="sans-serif" font-weight="800" font-size="12" fill="#ccff00" text-anchor="middle" letter-spacing="3">TOKYO DRIFT</text>
+              <text x="200" y="280" font-family="sans-serif" font-weight="600" font-size="9" fill="#8e8e93" text-anchor="middle">GRATEVA SPEC 240GSM</text>
+            </svg>
+          </div>
+
+          <!-- Floating Interactive Quick Add Button -->
+          <div class="absolute bottom-6 left-6 right-6">
+            <button onclick="openQuickView(1)" class="w-full py-3 bg-white text-black font-extrabold text-xs uppercase tracking-widest rounded-lg hover:bg-brand-neon transition-colors shadow-xl flex items-center justify-center gap-2">
+              <i class="fa-solid fa-eye"></i> Quick View Featured Tee
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. PRODUCT CATALOG & FILTERS -->
+  <section id="catalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-1">
+    
+    <!-- Section Title & Controls Bar -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-brand-border">
+      <div>
+        <div class="flex items-center gap-2 text-brand-red font-bold text-xs uppercase tracking-widest mb-1">
+          <i class="fa-solid fa-fire"></i> Official Product Roster
+        </div>
+        <h2 class="font-syne text-3xl sm:text-4xl font-extrabold uppercase text-white tracking-tight">
+          CURRENT DROPS & CATALOG
+        </h2>
+      </div>
+
+      <!-- Filters & Sorting Control -->
+      <div class="flex flex-wrap items-center gap-3">
+        <!-- Category Filter Buttons (Desktop/Tablet) -->
+        <div class="bg-brand-card p-1 rounded-lg border border-brand-border flex items-center text-xs font-bold uppercase overflow-x-auto">
+          <button onclick="filterCategory('all')" class="cat-tab px-3.5 py-2 rounded-md bg-brand-red text-white transition-all" data-filter="all">All</button>
+          <button onclick="filterCategory('oversized')" class="cat-tab px-3.5 py-2 rounded-md text-zinc-400 hover:text-white transition-all" data-filter="oversized">Oversized</button>
+          <button onclick="filterCategory('jdm')" class="cat-tab px-3.5 py-2 rounded-md text-zinc-400 hover:text-white transition-all" data-filter="jdm">JDM/Anime</button>
+          <button onclick="filterCategory('hoodies')" class="cat-tab px-3.5 py-2 rounded-md text-zinc-400 hover:text-white transition-all" data-filter="hoodies">Hoodies</button>
+        </div>
+
+        <!-- Price Sort Dropdown -->
+        <select id="sortSelect" onchange="sortProducts()" class="bg-brand-card border border-brand-border text-xs text-zinc-300 font-bold px-3 py-2.5 rounded-lg focus:outline-none focus:border-brand-red">
+          <option value="featured">Featured First</option>
+          <option value="low">Price: Low to High</option>
+          <option value="high">Price: High to Low</option>
+          <option value="rating">Highest Rated</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Product Cards Grid -->
+    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- Injected via JavaScript -->
+    </div>
+
+  </section>
+
+  <!-- 5. INTERACTIVE "CUSTOM DROP DESIGNER" (AI SPEC TOOL) -->
+  <section id="custom-designer" class="bg-brand-card border-y border-brand-border py-16 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Studio Header -->
+      <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+        <span class="bg-brand-neon/10 text-brand-neon border border-brand-neon/30 text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full inline-block">
+          Interactive Spec Tool
+        </span>
+        <h2 class="font-syne text-3xl sm:text-4xl font-extrabold uppercase text-white tracking-tight">
+          CUSTOM DROP STUDIO
+        </h2>
+        <p class="text-zinc-400 text-xs sm:text-sm">
+          Test custom streetwear artwork graphics, toggle garment colors, and adjust print placements live on Grateva Heavyweight blanks before ordering.
+        </p>
+      </div>
+
+      <!-- Interactive Canvas & Controls Workspace -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-brand-surface p-6 sm:p-8 rounded-2xl border border-brand-border shadow-2xl">
+        
+        <!-- Controls Left Sidebar -->
+        <div class="lg:col-span-5 space-y-6">
+          
+          <!-- Tee Color Selector -->
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">1. Choose Garment Color</label>
+            <div class="flex items-center gap-3">
+              <button onclick="setStudioColor('#121214')" class="w-9 h-9 rounded-full bg-[#121214] border-2 border-brand-red flex items-center justify-center text-white text-xs text-studio-color" data-color="#121214">
+                <i class="fa-solid fa-check"></i>
+              </button>
+              <button onclick="setStudioColor('#24242a')" class="w-9 h-9 rounded-full bg-[#24242a] border-2 border-transparent text-white text-xs text-studio-color" data-color="#24242a"></button>
+              <button onclick="setStudioColor('#e5e5e0')" class="w-9 h-9 rounded-full bg-[#e5e5e0] border-2 border-transparent text-black text-xs text-studio-color" data-color="#e5e5e0"></button>
+              <button onclick="setStudioColor('#421016')" class="w-9 h-9 rounded-full bg-[#421016] border-2 border-transparent text-white text-xs text-studio-color" data-color="#421016"></button>
+            </div>
+          </div>
+
+          <!-- Graphic Artwork Preset Selector -->
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">2. Select Artwork Graphic</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="setStudioGraphic('jdm')" class="p-3 bg-brand-card border border-brand-red rounded-lg text-left font-bold text-xs text-white studio-art-btn" data-art="jdm">
+                <span class="block text-brand-red">JDM Kanji Drift</span>
+                <span class="text-[10px] text-zinc-500 font-normal">Japanese Cyber Culture</span>
+              </button>
+              <button onclick="setStudioGraphic('cyber')" class="p-3 bg-brand-card border border-brand-border rounded-lg text-left font-bold text-xs text-white studio-art-btn" data-art="cyber">
+                <span class="block text-brand-neon">Cyberpunk Glitch</span>
+                <span class="text-[10px] text-zinc-500 font-normal">Tokyo District 04</span>
+              </button>
+              <button onclick="setStudioGraphic('minimal')" class="p-3 bg-brand-card border border-brand-border rounded-lg text-left font-bold text-xs text-white studio-art-btn" data-art="minimal">
+                <span class="block text-white">Grateva Arch Logo</span>
+                <span class="text-[10px] text-zinc-500 font-normal">Minimalist Streetwear</span>
+              </button>
+              <button onclick="setStudioGraphic('anime')" class="p-3 bg-brand-card border border-brand-border rounded-lg text-left font-bold text-xs text-white studio-art-btn" data-art="anime">
+                <span class="block text-orange-400">Akira Vibe</span>
+                <span class="text-[10px] text-zinc-500 font-normal">Retro Manga Art</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Print Position Selector -->
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">3. Print Location & Size</label>
+            <div class="flex items-center gap-3">
+              <button onclick="setStudioPos('center')" class="px-4 py-2 bg-brand-card border border-brand-red text-white text-xs font-bold rounded studio-pos-btn" data-pos="center">Chest Center</button>
+              <button onclick="setStudioPos('pocket')" class="px-4 py-2 bg-brand-card border border-brand-border text-zinc-400 text-xs font-bold rounded studio-pos-btn" data-pos="pocket">Left Chest Pocket</button>
+              <button onclick="setStudioPos('oversized')" class="px-4 py-2 bg-brand-card border border-brand-border text-zinc-400 text-xs font-bold rounded studio-pos-btn" data-pos="oversized">Oversized Full Back</button>
+            </div>
+          </div>
+
+          <!-- Custom Studio Order Button -->
+          <div class="pt-2">
+            <button onclick="addCustomStudioToCart()" class="w-full py-4 bg-brand-neon text-black font-extrabold text-xs uppercase tracking-widest rounded-lg hover:bg-yellow-300 transition-colors shadow-lg neon-glow flex items-center justify-center gap-2">
+              <i class="fa-solid fa-cart-plus"></i> Order Custom Spec Tee — ৳1,250
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Interactive Vector Canvas Preview Right -->
+        <div class="lg:col-span-7 flex justify-center bg-zinc-950 p-6 rounded-xl border border-brand-border relative">
+          <div class="w-full max-w-sm aspect-[4/5] relative flex items-center justify-center">
+            
+            <!-- Dynamic Vector Tee Canvas -->
+            <svg id="studioSvgCanvas" class="w-full h-full drop-shadow-2xl transition-all duration-300" viewBox="0 0 400 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Base T-Shirt Silhouette -->
+              <path id="studioTeeBody" d="M 100 80 L 140 40 L 260 40 L 300 80 L 380 150 L 330 220 L 290 190 L 290 440 L 110 440 L 110 190 L 70 220 L 20 150 Z" fill="#121214" stroke="#2a2a30" stroke-width="3"/>
+              <!-- Collar Ribbon -->
+              <path d="M 140 40 C 170 75, 230 75, 260 40" fill="none" stroke="#2a2a30" stroke-width="4"/>
+              
+              <!-- Dynamic Art Graphic Group -->
+              <g id="studioArtGroup" transform="translate(130, 150)">
+                <rect x="0" y="0" width="140" height="160" rx="6" fill="#18181b" stroke="#ff2e4c" stroke-width="1.5" stroke-dasharray="3 2"/>
+                <circle cx="70" cy="65" r="35" fill="#ff2e4c" opacity="0.9" />
+                <text x="70" y="75" font-family="Syne, sans-serif" font-weight="900" font-size="24" fill="#ffffff" text-anchor="middle">夜</text>
+                <text x="70" y="120" font-family="sans-serif" font-weight="800" font-size="11" fill="#ccff00" text-anchor="middle">JDM DRIFT BD</text>
+              </g>
+            </svg>
+
+            <!-- Watermark Tag -->
+            <div class="absolute bottom-4 right-4 bg-brand-surface/80 backdrop-blur px-3 py-1 rounded text-[10px] font-mono text-zinc-400 border border-brand-border">
+              240 GSM • DROP-SHOULDER FIT
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6. SLIDE-OUT CART DRAWER -->
+  <div id="cartDrawer" class="fixed inset-0 z-50 pointer-events-none transition-all duration-300 opacity-0">
+    <!-- Overlay Backdrop -->
+    <div onclick="toggleCartDrawer()" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+    <!-- Drawer Panel -->
+    <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-brand-card border-l border-brand-border shadow-2xl flex flex-col pointer-events-auto transform translate-x-full transition-transform duration-300" id="cartPanel">
+      
+      <!-- Cart Header -->
+      <div class="p-5 border-b border-brand-border flex items-center justify-between bg-brand-surface">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-bag-shopping text-brand-red text-lg"></i>
+          <h3 class="font-syne text-lg font-bold uppercase text-white">Your Cart</h3>
+          <span id="cartDrawerCount" class="bg-brand-red text-white text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+        </div>
+        <button onclick="toggleCartDrawer()" class="text-zinc-400 hover:text-white p-2">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Cart Item List -->
+      <div id="cartItemsList" class="flex-1 overflow-y-auto p-5 space-y-4">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Cart Summary & Shipping Calculator -->
+      <div class="p-5 border-t border-brand-border bg-brand-surface space-y-4">
+        
+        <!-- Delivery Location Option -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1.5">Delivery Destination (BD)</label>
+          <select id="shippingZone" onchange="updateCartTotals()" class="w-full bg-brand-card border border-brand-border text-xs text-white p-2.5 rounded-lg focus:outline-none focus:border-brand-red">
+            <option value="70">Inside Dhaka (৳70 Delivery)</option>
+            <option value="130">Outside Dhaka (৳130 Courier)</option>
+          </select>
+        </div>
+
+        <!-- Price Breakdown -->
+        <div class="space-y-1.5 text-xs text-zinc-400 font-medium">
+          <div class="flex justify-between">
+            <span>Subtotal</span>
+            <span id="cartSubtotal" class="text-white font-bold">৳0</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Estimated Delivery Fee</span>
+            <span id="cartShippingFee" class="text-white font-bold">৳70</span>
+          </div>
+          <div class="flex justify-between text-brand-neon font-bold pt-1 border-t border-brand-border text-sm">
+            <span>Grand Total</span>
+            <span id="cartGrandTotal" class="text-base font-extrabold">৳0</span>
+          </div>
+        </div>
+
+        <!-- Checkout Action Button -->
+        <button onclick="openCheckoutModal()" id="checkoutBtn" disabled class="w-full py-4 bg-brand-red disabled:bg-zinc-800 disabled:text-zinc-500 text-white font-extrabold text-xs uppercase tracking-widest rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center gap-2">
+          <span>PROCEED TO CHECKOUT</span>
+          <i class="fa-solid fa-lock"></i>
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 7. CHECKOUT MODAL WITH BKASH/NAGAD/COD -->
+  <div id="checkoutModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-brand-card border border-brand-border w-full max-w-xl rounded-2xl p-6 sm:p-8 max-h-[90vh] overflow-y-auto relative shadow-2xl">
+      
+      <button onclick="closeCheckoutModal()" class="absolute top-5 right-5 text-zinc-400 hover:text-white">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="mb-6">
+        <span class="text-brand-red text-xs font-bold uppercase tracking-widest">Fast Delivery BD</span>
+        <h3 class="font-syne text-2xl font-black uppercase text-white">COMPLETE YOUR ORDER</h3>
+      </div>
+
+      <form id="checkoutForm" onsubmit="handlePlaceOrder(event)" class="space-y-4">
+        
+        <!-- Customer Info -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold uppercase text-zinc-400 mb-1">Full Name *</label>
+            <input type="text" required placeholder="e.g. Tanvir Ahmed" class="w-full bg-brand-surface border border-brand-border text-xs text-white p-3 rounded-lg focus:border-brand-red outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-zinc-400 mb-1">Phone Number (Required) *</label>
+            <input type="tel" required placeholder="017XXXXXXXX" class="w-full bg-brand-surface border border-brand-border text-xs text-white p-3 rounded-lg focus:border-brand-red outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-zinc-400 mb-1">Full Delivery Address *</label>
+          <textarea required rows="2" placeholder="House no, Road no, Area, City..." class="w-full bg-brand-surface border border-brand-border text-xs text-white p-3 rounded-lg focus:border-brand-red outline-none"></textarea>
+        </div>
+
+        <!-- Local BD Payment Options -->
+        <div>
+          <label class="block text-xs font-bold uppercase text-zinc-400 mb-2">Select Payment Method</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            
+            <label class="p-3 bg-brand-surface border border-brand-red rounded-lg flex flex-col items-center justify-center cursor-pointer text-center group">
+              <input type="radio" name="paymentMethod" value="bkash" checked class="hidden">
+              <span class="font-extrabold text-xs text-pink-500 block">bKash</span>
+              <span class="text-[9px] text-zinc-500">Merchant/Send</span>
+            </label>
+
+            <label class="p-3 bg-brand-surface border border-brand-border rounded-lg flex flex-col items-center justify-center cursor-pointer text-center group">
+              <input type="radio" name="paymentMethod" value="nagad" class="hidden">
+              <span class="font-extrabold text-xs text-orange-500 block">Nagad</span>
+              <span class="text-[9px] text-zinc-500">Direct Pay</span>
+            </label>
+
+            <label class="p-3 bg-brand-surface border border-brand-border rounded-lg flex flex-col items-center justify-center cursor-pointer text-center group">
+              <input type="radio" name="paymentMethod" value="rocket" class="hidden">
+              <span class="font-extrabold text-xs text-purple-400 block">Rocket</span>
+              <span class="text-[9px] text-zinc-500">Mobile Pay</span>
+            </label>
+
+            <label class="p-3 bg-brand-surface border border-brand-border rounded-lg flex flex-col items-center justify-center cursor-pointer text-center group">
+              <input type="radio" name="paymentMethod" value="cod" class="hidden">
+              <span class="font-extrabold text-xs text-white block">Cash on Delivery</span>
+              <span class="text-[9px] text-zinc-500">Pay on Hand</span>
+            </label>
+
+          </div>
+        </div>
+
+        <!-- Order Summary Box -->
+        <div class="bg-brand-surface p-4 rounded-xl border border-brand-border space-y-1 text-xs">
+          <div class="flex justify-between text-zinc-400">
+            <span>Items Subtotal</span>
+            <span id="modalSubtotal" class="text-white font-bold">৳0</span>
+          </div>
+          <div class="flex justify-between text-zinc-400">
+            <span>Delivery Fee</span>
+            <span id="modalShipping" class="text-white font-bold">৳70</span>
+          </div>
+          <div class="flex justify-between text-brand-neon font-black text-sm pt-2 border-t border-brand-border">
+            <span>Total Amount Payable</span>
+            <span id="modalGrandTotal">৳0</span>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-4 bg-brand-neon text-black font-extrabold text-xs uppercase tracking-widest rounded-lg hover:bg-yellow-300 transition-colors shadow-lg flex items-center justify-center gap-2">
+          <i class="fa-solid fa-check"></i> CONFIRM ORDER NOW
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- 8. QUICK VIEW MODAL -->
+  <div id="quickViewModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 modal-backdrop">
+    <div id="quickViewContent" class="bg-brand-card border border-brand-border w-full max-w-3xl rounded-2xl p-6 relative shadow-2xl">
+      <!-- Injected dynamically via JS -->
+    </div>
+  </div>
+
+  <!-- 9. LOOKBOOK MODAL -->
+  <div id="lookbookModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-brand-card border border-brand-border w-full max-w-4xl rounded-2xl p-6 sm:p-8 max-h-[90vh] overflow-y-auto relative shadow-2xl space-y-6">
+      <button onclick="closeLookbookModal()" class="absolute top-5 right-5 text-zinc-400 hover:text-white">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      
+      <div>
+        <span class="text-brand-red text-xs font-bold uppercase tracking-widest">Grateva Lookbook 2026</span>
+        <h3 class="font-syne text-3xl font-black uppercase text-white">TOKYO NIGHTS // STREET CULTURE</h3>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="bg-brand-surface p-3 rounded-xl border border-brand-border text-center space-y-2">
+          <div class="aspect-[3/4] bg-zinc-950 rounded-lg flex items-center justify-center p-4">
+            <i class="fa-solid fa-shirt text-6xl text-brand-red"></i>
+          </div>
+          <span class="text-xs font-bold text-white block">Drop 04 // Oversized JDM Drift Tee</span>
+        </div>
+        <div class="bg-brand-surface p-3 rounded-xl border border-brand-border text-center space-y-2">
+          <div class="aspect-[3/4] bg-zinc-950 rounded-lg flex items-center justify-center p-4">
+            <i class="fa-solid fa-vest text-6xl text-brand-neon"></i>
+          </div>
+          <span class="text-xs font-bold text-white block">Drop 04 // Cyberpunk Heavyweight Hoodie</span>
+        </div>
+        <div class="bg-brand-surface p-3 rounded-xl border border-brand-border text-center space-y-2">
+          <div class="aspect-[3/4] bg-zinc-950 rounded-lg flex items-center justify-center p-4">
+            <i class="fa-solid fa-hat-cowboy text-6xl text-orange-500"></i>
+          </div>
+          <span class="text-xs font-bold text-white block">Drop 04 // Shibuya Streetwear Edition</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- 10. FOOTER -->
+  <footer class="bg-brand-black border-t border-brand-border pt-16 pb-8 text-xs text-zinc-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+      
+      <!-- Brand Info -->
+      <div class="space-y-4">
+        <span class="font-syne text-2xl font-black uppercase text-white tracking-tighter">GRATEVA<span class="text-brand-red">.</span></span>
+        <p class="leading-relaxed text-zinc-400">
+          Independent urban streetwear label based in Dhaka, Bangladesh. Specializing in heavyweight oversized tees, anime/JDM culture prints, and minimalist drops.
+        </p>
+        <div class="flex items-center gap-3 text-base">
+          <a href="https://instagram.com/grateva_official" target="_blank" class="w-9 h-9 rounded-lg bg-brand-surface border border-brand-border flex items-center justify-center text-zinc-300 hover:text-brand-red hover:border-brand-red transition-all">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="#" class="w-9 h-9 rounded-lg bg-brand-surface border border-brand-border flex items-center justify-center text-zinc-300 hover:text-blue-500 hover:border-blue-500 transition-all">
+            <i class="fa-brands fa-facebook"></i>
+          </a>
+          <a href="#" class="w-9 h-9 rounded-lg bg-brand-surface border border-brand-border flex items-center justify-center text-zinc-300 hover:text-green-500 hover:border-green-500 transition-all">
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Links Column 1 -->
+      <div class="space-y-3">
+        <h4 class="font-bold uppercase tracking-wider text-white">Collections</h4>
+        <ul class="space-y-2">
+          <li><a href="#catalog" onclick="filterCategory('oversized')" class="hover:text-white transition-colors">Oversized Drop-Shoulder Tees</a></li>
+          <li><a href="#catalog" onclick="filterCategory('jdm')" class="hover:text-white transition-colors">JDM Drift & Cyberpunk</a></li>
+          <li><a href="#catalog" onclick="filterCategory('hoodies')" class="hover:text-white transition-colors">Heavyweight Hoodies</a></li>
+          <li><a href="#custom-designer" class="hover:text-brand-neon transition-colors">Custom Spec Studio</a></li>
+        </ul>
+      </div>
+
+      <!-- Links Column 2 -->
+      <div class="space-y-3">
+        <h4 class="font-bold uppercase tracking-wider text-white">Customer Support</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-white transition-colors">Size Guide & Oversized Fits</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Shipping & Delivery Policies</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">3-Day Exchange Guarantee</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Track Order via Phone</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter Signup -->
+      <div class="space-y-3">
+        <h4 class="font-bold uppercase tracking-wider text-white">VIP Drop Alerts</h4>
+        <p class="text-zinc-400">Subscribe for secret drop links & 10% off your first order.</p>
+        <form onsubmit="handleNewsletter(event)" class="space-y-2">
+          <input type="email" required placeholder="Enter your email address" class="w-full bg-brand-surface border border-brand-border p-2.5 text-xs text-white rounded-lg focus:outline-none focus:border-brand-red">
+          <button type="submit" class="w-full py-2.5 bg-brand-red text-white font-bold text-xs uppercase tracking-wider rounded-lg hover:bg-red-600 transition-colors">
+            GET DROPS FIRST
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- Bottom Copyright -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-brand-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500">
+      <p>© 2026 GRATEVA URBAN WEAR (@grateva_official). All Rights Reserved.</p>
+      <div class="flex items-center gap-4">
+        <span>bKash</span>
+        <span>Nagad</span>
+        <span>Rocket</span>
+        <span>Cash on Delivery</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 11. JAVASCRIPT APPLICATION CORE LOGIC -->
+  <script>
+    // PRODUCT CATALOG DATABASE
+    const PRODUCTS = [
+      {
+        id: 1,
+        title: "Tokyo Drift Heavyweight Oversized Tee",
+        category: "jdm",
+        price: 1150,
+        origPrice: 1400,
+        badge: "HOT DROP",
+        rating: 4.9,
+        reviews: 38,
+        gsm: "240 GSM Combed Cotton",
+        colors: ["#121214", "#24242a"],
+        sizes: ["M", "L", "XL", "XXL"],
+        description: "Signature oversized drop-shoulder boxy fit. High-density Japanese typography and JDM racecar artwork on back.",
+        graphicType: "jdm"
+      },
+      {
+        id: 2,
+        title: "Cyberpunk District 04 Drop-Shoulder Tee",
+        category: "oversized",
+        price: 1050,
+        origPrice: 1300,
+        badge: "LIMITED",
+        rating: 4.8,
+        reviews: 24,
+        gsm: "240 GSM Heavy Cotton",
+        colors: ["#121214", "#421016"],
+        sizes: ["M", "L", "XL"],
+        description: "Edgy neon glitch artwork on front chest with minimalist high-contrast back typography.",
+        graphicType: "cyber"
+      },
+      {
+        id: 3,
+        title: "Grateva Minimalist Arch Logo Tee",
+        category: "oversized",
+        price: 950,
+        origPrice: 1150,
+        badge: "ESSENTIAL",
+        rating: 5.0,
+        reviews: 42,
+        gsm: "220 GSM Combed Cotton",
+        colors: ["#121214", "#e5e5e0"],
+        sizes: ["S", "M", "L", "XL", "XXL"],
+        description: "Clean aesthetic streetwear essential tee with subtle puff-print branding on front.",
+        graphicType: "minimal"
+      },
+      {
+        id: 4,
+        title: "Akira Neo-Tokyo Heavyweight Hoodie",
+        category: "hoodies",
+        price: 2250,
+        origPrice: 2600,
+        badge: "PRE-ORDER",
+        rating: 4.9,
+        reviews: 19,
+        gsm: "380 GSM Heavy Fleece",
+        colors: ["#121214"],
+        sizes: ["M", "L", "XL"],
+        description: "Ultra-heavyweight fleece hoodie with double-lined hood and distressed anime screenprint artwork.",
+        graphicType: "anime"
+      },
+      {
+        id: 5,
+        title: "Kanji Street Samurai Oversized Tee",
+        category: "jdm",
+        price: 1190,
+        origPrice: 1450,
+        badge: "NEW",
+        rating: 4.7,
+        reviews: 15,
+        gsm: "240 GSM Combed Cotton",
+        colors: ["#121214", "#24242a"],
+        sizes: ["M", "L", "XL", "XXL"],
+        description: "Back print featured design showing retro Japanese samurai with modern street typography.",
+        graphicType: "jdm"
+      },
+      {
+        id: 6,
+        title: "Night Runner Oversized Graphic Hoodie",
+        category: "hoodies",
+        price: 2350,
+        origPrice: 2700,
+        badge: "WARM DROP",
+        rating: 5.0,
+        reviews: 29,
+        gsm: "380 GSM Heavy Fleece",
+        colors: ["#121214", "#421016"],
+        sizes: ["M", "L", "XL"],
+        description: "Boxy fit street hoodie crafted for night runs and cool Dhaka winter evenings.",
+        graphicType: "cyber"
+      }
+    ];
+
+    // APPLICATION STATE
+    let cart = [];
+    let wishlist = [];
+    let activeCategory = 'all';
+    let searchQuery = '';
+
+    // STUDIO STATE
+    let studioState = {
+      color: '#121214',
+      graphic: 'jdm',
+      pos: 'center'
+    };
+
+    // DOM INITIALIZATION
+    window.onload = function() {
+      renderProducts();
+      initCountdownTimer();
+    };
+
+    // RENDER PRODUCTS GRID
+    function renderProducts() {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+
+      let filtered = PRODUCTS.filter(p => {
+        const matchesCategory = activeCategory === 'all' || p.category === activeCategory;
+        const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                              p.description.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-12 text-center text-zinc-500 space-y-2">
+            <i class="fa-solid fa-magnifying-glass text-3xl mb-2"></i>
+            <p class="text-sm font-bold uppercase">No drops found matching your search criteria.</p>
+            <button onclick="filterCategory('all')" class="text-xs text-brand-red underline font-bold">Reset Filters</button>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(product => {
+        const isWishlisted = wishlist.includes(product.id);
+        const card = document.createElement('div');
+        card.className = "group bg-brand-card rounded-xl border border-brand-border p-4 hover:border-brand-red/50 transition-all duration-300 flex flex-col justify-between";
+        
+        card.innerHTML = `
+          <div>
+            <!-- Card Image Box -->
+            <div class="relative aspect-[4/5] bg-zinc-950 rounded-lg mb-4 flex items-center justify-center p-4 overflow-hidden">
+              
+              <!-- Badge -->
+              <span class="absolute top-3 left-3 z-10 bg-brand-red text-white font-extrabold text-[9px] uppercase px-2.5 py-1 rounded">
+                ${product.badge}
+              </span>
+
+              <!-- Wishlist Trigger -->
+              <button onclick="toggleWishlist(${product.id})" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-brand-surface/80 border border-brand-border flex items-center justify-center text-xs transition-colors ${isWishlisted ? 'text-brand-red' : 'text-zinc-400 hover:text-white'}">
+                <i class="fa-${isWishlisted ? 'solid' : 'regular'} fa-heart"></i>
+              </button>
+
+              <!-- SVG Garment Simulation -->
+              <svg class="w-full h-full transform group-hover:scale-105 transition-transform duration-500" viewBox="0 0 400 480" fill="none">
+                <path d="M 100 80 L 140 40 L 260 40 L 300 80 L 380 150 L 330 220 L 290 190 L 290 440 L 110 440 L 110 190 L 70 220 L 20 150 Z" fill="${product.colors[0]}" stroke="#2a2a30" stroke-width="2"/>
+                <path d="M 140 40 C 170 75, 230 75, 260 40" fill="none" stroke="#2a2a30" stroke-width="3"/>
+                
+                <!-- Graphic Art Simulated Overlay -->
+                <rect x="145" y="140" width="110" height="150" rx="4" fill="#18181b" stroke="#ff2e4c" stroke-width="1"/>
+                <circle cx="200" cy="190" r="30" fill="${product.graphicType === 'cyber' ? '#ccff00' : '#ff2e4c'}" opacity="0.8" />
+                <text x="200" y="200" font-family="Syne, sans-serif" font-weight="900" font-size="20" fill="#ffffff" text-anchor="middle">GRTV</text>
+              </svg>
+
+              <!-- Quick View Trigger Overlay -->
+              <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
+                <button onclick="openQuickView(${product.id})" class="w-full py-2.5 bg-white text-black font-extrabold text-[11px] uppercase tracking-wider rounded hover:bg-brand-neon transition-colors shadow-lg">
+                  Quick View
+                </button>
+              </div>
+
+            </div>
+
+            <!-- Title & Rating -->
+            <div class="space-y-1 mb-3">
+              <div class="flex items-center justify-between text-[11px] text-zinc-500">
+                <span>${product.gsm}</span>
+                <span class="text-amber-400 font-bold flex items-center gap-1">
+                  <i class="fa-solid fa-star text-[9px]"></i> ${product.rating} (${product.reviews})
+                </span>
+              </div>
+              <h3 class="font-syne font-bold text-sm uppercase text-white group-hover:text-brand-red transition-colors line-clamp-1">
+                ${product.title}
+              </h3>
+            </div>
+          </div>
+
+          <!-- Price & Add Action -->
+          <div class="pt-3 border-t border-brand-border flex items-center justify-between">
+            <div>
+              <span class="font-extrabold text-base text-white">৳${product.price}</span>
+              <span class="text-xs text-zinc-500 line-through ml-1.5">৳${product.origPrice}</span>
+            </div>
+            
+            <button onclick="addToCartDirect(${product.id})" class="px-3.5 py-2 bg-brand-surface hover:bg-brand-red border border-brand-border hover:border-brand-red text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5">
+              <i class="fa-solid fa-cart-plus text-xs"></i>
+              <span>Add</span>
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // CATEGORY FILTERING
+    function filterCategory(cat) {
+      activeCategory = cat;
+      document.querySelectorAll('.cat-tab').forEach(btn => {
+        if(btn.dataset.filter === cat) {
+          btn.className = "cat-tab px-3.5 py-2 rounded-md bg-brand-red text-white transition-all";
+        } else {
+          btn.className = "cat-tab px-3.5 py-2 rounded-md text-zinc-400 hover:text-white transition-all";
+        }
+      });
+      document.querySelectorAll('.nav-cat-btn').forEach(btn => {
+        if(btn.dataset.cat === cat) {
+          btn.className = "nav-cat-btn px-3 py-2 text-brand-red border-b-2 border-brand-red transition-all";
+        } else {
+          btn.className = "nav-cat-btn px-3 py-2 text-zinc-400 hover:text-white border-b-2 border-transparent transition-all";
+        }
+      });
+      renderProducts();
+    }
+
+    // SEARCH HANDLERS
+    function handleSearch() {
+      searchQuery = document.getElementById('searchInput').value;
+      renderProducts();
+    }
+    function handleMobileSearch() {
+      searchQuery = document.getElementById('mobileSearchInput').value;
+      renderProducts();
+    }
+
+    // SORT PRODUCTS
+    function sortProducts() {
+      const val = document.getElementById('sortSelect').value;
+      if (val === 'low') PRODUCTS.sort((a,b) => a.price - b.price);
+      if (val === 'high') PRODUCTS.sort((a,b) => b.price - a.price);
+      if (val === 'rating') PRODUCTS.sort((a,b) => b.rating - a.rating);
+      renderProducts();
+    }
+
+    // CART DRAWER LOGIC
+    function toggleCartDrawer() {
+      const drawer = document.getElementById('cartDrawer');
+      const panel = document.getElementById('cartPanel');
+      if (drawer.classList.contains('opacity-0')) {
+        drawer.classList.remove('opacity-0', 'pointer-events-none');
+        panel.classList.remove('translate-x-full');
+      } else {
+        drawer.classList.add('opacity-0', 'pointer-events-none');
+        panel.classList.add('translate-x-full');
+      }
+    }
+
+    function addToCartDirect(id, size = 'L') {
+      const product = PRODUCTS.find(p => p.id === id);
+      const existing = cart.find(item => item.id === id && item.size === size);
+      
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          size: size,
+          qty: 1,
+          custom: false
+        });
+      }
+      
+      updateCartUI();
+      showToast(`Added "${product.title}" (${size}) to cart!`);
+    }
+
+    function updateCartUI() {
+      const countEl = document.getElementById('cartBadge');
+      const drawerCount = document.getElementById('cartDrawerCount');
+      const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+      
+      countEl.textContent = totalItems;
+      drawerCount.textContent = totalItems;
+
+      const itemsContainer = document.getElementById('cartItemsList');
+      itemsContainer.innerHTML = '';
+
+      if (cart.length === 0) {
+        itemsContainer.innerHTML = `
+          <div class="text-center py-12 text-zinc-500 space-y-3">
+            <i class="fa-solid fa-bag-shopping text-4xl"></i>
+            <p class="text-xs font-bold uppercase">Your cart is empty.</p>
+            <button onclick="toggleCartDrawer()" class="px-4 py-2 bg-brand-surface border border-brand-border text-white text-xs font-bold rounded">
+              EXPLORE DROPS
+            </button>
+          </div>
+        `;
+        document.getElementById('checkoutBtn').disabled = true;
+      } else {
+        document.getElementById('checkoutBtn').disabled = false;
+        cart.forEach((item, index) => {
+          const div = document.createElement('div');
+          div.className = "flex items-center justify-between p-3 bg-brand-surface rounded-xl border border-brand-border gap-3";
+          div.innerHTML = `
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-zinc-950 rounded flex items-center justify-center">
+                <i class="fa-solid fa-shirt text-brand-red text-lg"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-xs text-white line-clamp-1">${item.title}</h4>
+                <span class="text-[10px] text-zinc-400 font-mono">SIZE: ${item.size} • ৳${item.price}</span>
+              </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+              <div class="flex items-center bg-brand-card rounded border border-brand-border">
+                <button onclick="changeQty(${index}, -1)" class="px-2 py-1 text-zinc-400 hover:text-white text-xs">-</button>
+                <span class="px-2 text-xs font-bold text-white">${item.qty}</span>
+                <button onclick="changeQty(${index}, 1)" class="px-2 py-1 text-zinc-400 hover:text-white text-xs">+</button>
+              </div>
+              <button onclick="removeFromCart(${index})" class="text-zinc-500 hover:text-brand-red text-xs">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          `;
+          itemsContainer.appendChild(div);
+        });
+      }
+
+      updateCartTotals();
+    }
+
+    function changeQty(index, delta) {
+      cart[index].qty += delta;
+      if (cart[index].qty <= 0) cart.splice(index, 1);
+      updateCartUI();
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartUI();
+    }
+
+    function updateCartTotals() {
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const shipping = parseInt(document.getElementById('shippingZone').value || 70);
+      const total = subtotal + (cart.length > 0 ? shipping : 0);
+
+      document.getElementById('cartSubtotal').textContent = `৳${subtotal}`;
+      document.getElementById('cartShippingFee').textContent = `৳${cart.length > 0 ? shipping : 0}`;
+      document.getElementById('cartGrandTotal').textContent = `৳${total}`;
+
+      // Update modal totals as well
+      document.getElementById('modalSubtotal').textContent = `৳${subtotal}`;
+      document.getElementById('modalShipping').textContent = `৳${cart.length > 0 ? shipping : 0}`;
+      document.getElementById('modalGrandTotal').textContent = `৳${total}`;
+    }
+
+    // WISHLIST TOGGLE
+    function toggleWishlist(id) {
+      const idx = wishlist.indexOf(id);
+      if (idx > -1) {
+        wishlist.splice(idx, 1);
+        showToast('Removed from wishlist');
+      } else {
+        wishlist.push(id);
+        showToast('Added to wishlist!');
+      }
+      
+      const badge = document.getElementById('wishlistBadge');
+      if (wishlist.length > 0) {
+        badge.classList.remove('hidden');
+        badge.textContent = wishlist.length;
+      } else {
+        badge.classList.add('hidden');
+      }
+      renderProducts();
+    }
+
+    // QUICK VIEW MODAL LOGIC
+    function openQuickView(id) {
+      const p = PRODUCTS.find(prod => prod.id === id);
+      const modal = document.getElementById('quickViewModal');
+      const content = document.getElementById('quickViewContent');
+      
+      content.innerHTML = `
+        <button onclick="closeQuickView()" class="absolute top-5 right-5 text-zinc-400 hover:text-white">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <!-- Left Visual -->
+          <div class="aspect-[4/5] bg-zinc-950 rounded-xl p-6 flex items-center justify-center border border-brand-border">
+            <svg class="w-full h-full drop-shadow-2xl" viewBox="0 0 400 480" fill="none">
+              <path d="M 100 80 L 140 40 L 260 40 L 300 80 L 380 150 L 330 220 L 290 190 L 290 440 L 110 440 L 110 190 L 70 220 L 20 150 Z" fill="${p.colors[0]}" stroke="#2a2a30" stroke-width="3"/>
+              <path d="M 140 40 C 170 75, 230 75, 260 40" fill="none" stroke="#2a2a30" stroke-width="4"/>
+              <rect x="145" y="140" width="110" height="150" rx="4" fill="#18181b" stroke="#ff2e4c" stroke-width="1.5"/>
+              <circle cx="200" cy="190" r="32" fill="#ff2e4c" opacity="0.9" />
+              <text x="200" y="200" font-family="Syne, sans-serif" font-weight="900" font-size="22" fill="#ffffff" text-anchor="middle">速</text>
+            </svg>
+          </div>
+
+          <!-- Right Options -->
+          <div class="space-y-4">
+            <div>
+              <span class="text-brand-red text-xs font-bold uppercase tracking-widest">${p.badge} • ${p.gsm}</span>
+              <h2 class="font-syne text-2xl font-black uppercase text-white mt-1">${p.title}</h2>
+              <p class="text-zinc-400 text-xs mt-2 leading-relaxed">${p.description}</p>
+            </div>
+
+            <div>
+              <span class="text-xs font-bold uppercase text-zinc-400 block mb-1">Select Size (Oversized Boxy Fit)</span>
+              <div class="flex items-center gap-2" id="quickSizeSelect">
+                ${p.sizes.map(s => `
+                  <button onclick="selectQuickSize(this, '${s}')" class="quick-size-btn w-10 h-10 rounded-lg bg-brand-surface border border-brand-border font-bold text-xs text-white hover:border-brand-red ${s === 'L' ? 'border-brand-red bg-brand-red/20' : ''}">
+                    ${s}
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-brand-border flex items-center justify-between">
+              <div>
+                <span class="text-xs text-zinc-400 block uppercase">Price</span>
+                <span class="font-extrabold text-2xl text-white">৳${p.price}</span>
+              </div>
+              <button onclick="addToCartDirect(${p.id}, selectedQuickSize); closeQuickView();" class="px-6 py-3 bg-brand-red text-white font-extrabold text-xs uppercase tracking-widest rounded-lg hover:bg-red-600 transition-colors">
+                ADD TO CART
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      window.selectedQuickSize = 'L';
+      modal.classList.remove('hidden');
+    }
+
+    function selectQuickSize(btn, size) {
+      window.selectedQuickSize = size;
+      document.querySelectorAll('.quick-size-btn').forEach(b => {
+        b.className = "quick-size-btn w-10 h-10 rounded-lg bg-brand-surface border border-brand-border font-bold text-xs text-white hover:border-brand-red";
+      });
+      btn.className = "quick-size-btn w-10 h-10 rounded-lg bg-brand-red/20 border-2 border-brand-red font-bold text-xs text-white";
+    }
+
+    function closeQuickView() {
+      document.getElementById('quickViewModal').classList.add('hidden');
+    }
+
+    // CHECKOUT MODAL LOGIC
+    function openCheckoutModal() {
+      if(cart.length === 0) return;
+      toggleCartDrawer();
+      document.getElementById('checkoutModal').classList.remove('hidden');
+    }
+    function closeCheckoutModal() {
+      document.getElementById('checkoutModal').classList.add('hidden');
+    }
+
+    function handlePlaceOrder(e) {
+      e.preventDefault();
+      closeCheckoutModal();
+      cart = [];
+      updateCartUI();
+      showToast('🎉 Order placed successfully! Our team will call you to confirm.');
+    }
+
+    // LOOKBOOK MODAL LOGIC
+    function openLookbookModal() {
+      document.getElementById('lookbookModal').classList.remove('hidden');
+    }
+    function closeLookbookModal() {
+      document.getElementById('lookbookModal').classList.add('hidden');
+    }
+
+    // CUSTOM STUDIO LOGIC
+    function setStudioColor(hex) {
+      studioState.color = hex;
+      document.getElementById('studioTeeBody').setAttribute('fill', hex);
+      document.querySelectorAll('.text-studio-color').forEach(btn => {
+        btn.innerHTML = btn.dataset.color === hex ? '<i class="fa-solid fa-check"></i>' : '';
+      });
+    }
+
+    function setStudioGraphic(type) {
+      studioState.graphic = type;
+      const artGroup = document.getElementById('studioArtGroup');
+      
+      if(type === 'jdm') {
+        artGroup.innerHTML = `
+          <rect x="0" y="0" width="140" height="160" rx="6" fill="#18181b" stroke="#ff2e4c" stroke-width="1.5" stroke-dasharray="3 2"/>
+          <circle cx="70" cy="65" r="35" fill="#ff2e4c" opacity="0.9" />
+          <text x="70" y="75" font-family="Syne, sans-serif" font-weight="900" font-size="24" fill="#ffffff" text-anchor="middle">夜</text>
+          <text x="70" y="120" font-family="sans-serif" font-weight="800" font-size="11" fill="#ccff00" text-anchor="middle">JDM DRIFT BD</text>
+        `;
+      } else if (type === 'cyber') {
+        artGroup.innerHTML = `
+          <rect x="0" y="0" width="140" height="160" rx="6" fill="#09090b" stroke="#ccff00" stroke-width="1.5"/>
+          <text x="70" y="60" font-family="Syne, sans-serif" font-weight="900" font-size="18" fill="#ccff00" text-anchor="middle">TOKYO 2026</text>
+          <line x1="20" y1="80" x2="120" y2="80" stroke="#ff2e4c" stroke-width="2"/>
+          <text x="70" y="110" font-family="sans-serif" font-weight="800" font-size="10" fill="#ffffff" text-anchor="middle">DISTRICT 04 GLITCH</text>
+        `;
+      } else if (type === 'minimal') {
+        artGroup.innerHTML = `
+          <text x="70" y="80" font-family="Syne, sans-serif" font-weight="900" font-size="20" fill="#ffffff" text-anchor="middle" letter-spacing="2">GRATEVA</text>
+          <text x="70" y="100" font-family="sans-serif" font-weight="600" font-size="8" fill="#8e8e93" text-anchor="middle">URBAN SPEC BD</text>
+        `;
+      } else if (type === 'anime') {
+        artGroup.innerHTML = `
+          <polygon points="70,20 120,130 20,130" fill="#ff2e4c" opacity="0.8"/>
+          <text x="70" y="90" font-family="Syne, sans-serif" font-weight="900" font-size="22" fill="#ffffff" text-anchor="middle">AKIRA</text>
+        `;
+      }
+
+      document.querySelectorAll('.studio-art-btn').forEach(btn => {
+        btn.className = btn.dataset.art === type 
+          ? "p-3 bg-brand-card border border-brand-red rounded-lg text-left font-bold text-xs text-white studio-art-btn"
+          : "p-3 bg-brand-card border border-brand-border rounded-lg text-left font-bold text-xs text-white studio-art-btn";
+      });
+    }
+
+    function setStudioPos(pos) {
+      studioState.pos = pos;
+      const artGroup = document.getElementById('studioArtGroup');
+      if (pos === 'center') {
+        artGroup.setAttribute('transform', 'translate(130, 150) scale(1)');
+      } else if (pos === 'pocket') {
+        artGroup.setAttribute('transform', 'translate(230, 130) scale(0.5)');
+      } else if (pos === 'oversized') {
+        artGroup.setAttribute('transform', 'translate(110, 120) scale(1.3)');
+      }
+
+      document.querySelectorAll('.studio-pos-btn').forEach(btn => {
+        btn.className = btn.dataset.pos === pos
+          ? "px-4 py-2 bg-brand-card border border-brand-red text-white text-xs font-bold rounded studio-pos-btn"
+          : "px-4 py-2 bg-brand-card border border-brand-border text-zinc-400 text-xs font-bold rounded studio-pos-btn";
+      });
+    }
+
+    function addCustomStudioToCart() {
+      cart.push({
+        id: Date.now(),
+        title: `Custom Spec Tee (${studioState.graphic.toUpperCase()})`,
+        price: 1250,
+        size: 'L',
+        qty: 1,
+        custom: true
+      });
+      updateCartUI();
+      toggleCartDrawer();
+      showToast('Custom Spec Tee added to cart!');
+    }
+
+    // COUNTDOWN TIMER LOGIC
+    function initCountdownTimer() {
+      let days = 2, hours = 14, mins = 38, secs = 59;
+      setInterval(() => {
+        secs--;
+        if(secs < 0) { secs = 59; mins--; }
+        if(mins < 0) { mins = 59; hours--; }
+        if(hours < 0) { hours = 23; days--; }
+
+        document.getElementById('timerDays').textContent = days < 10 ? '0' + days : days;
+        document.getElementById('timerHours').textContent = hours < 10 ? '0' + hours : hours;
+        document.getElementById('timerMins').textContent = mins < 10 ? '0' + mins : mins;
+        document.getElementById('timerSecs').textContent = secs < 10 ? '0' + secs : secs;
+      }, 1000);
+    }
+
+    // UTILITY FUNCTIONS
+    function scrollToDesigner() {
+      document.getElementById('custom-designer').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobileNav');
+      nav.classList.toggle('hidden');
+    }
+
+    function handleNewsletter(e) {
+      e.preventDefault();
+      showToast('🔥 Subscribed! Check your inbox for your 10% discount code.');
+    }
+
+    function showToast(msg) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = "bg-brand-surface border border-brand-red text-white text-xs font-bold px-4 py-3 rounded-lg shadow-2xl flex items-center gap-2 transform translate-y-2 opacity-0 transition-all duration-300 pointer-events-auto";
+      toast.innerHTML = `<i class="fa-solid fa-circle-check text-brand-red"></i> ${msg}`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      }, 50);
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
